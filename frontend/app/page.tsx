@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const DefaultPage = () => {
 
     useEffect(() => {
-        window.location.href = "/auth/login";
+        window.location.href = "/landing";
     })
     
     return ( 
