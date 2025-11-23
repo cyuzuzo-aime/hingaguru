@@ -5,8 +5,15 @@ import clsx from "clsx";
 import { cn } from "@/lib/utils";
 import Typography from "./Typography";
 import { SearchIcon } from "lucide-react";
+import {
+  Select as Select2,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-type InputVariant = "text" | "email" | "password" | "number" | "textarea" | "select";
+type InputVariant = "text" | "email" | "password" | "number" | "date" | "textarea" | "select";
 
 interface SelectOption {
     value: string;
@@ -55,6 +62,7 @@ export default function Input({
         email: "input",
         password: "input",
         number: "input",
+        date: "input",
         textarea: "textarea",
         select: "select",
     };
@@ -93,14 +101,39 @@ export default function Input({
                     <SearchIcon className={`text-gray-500`}/>
                 )
             }
-            {(
+            {variant === "select" ? (
+                <Select2 value={value}  onValueChange={onChange}>
+                    <SelectTrigger
+                        id={inputId}
+                        className={cn(
+                            "border border-gray-300 p-2 rounded-md text-sm flex justify-between items-center w-full text-gray-600 font-medium ring-0 border-none",
+                            !border && "border-0",
+                            mergedClasses
+                        )}
+                        disabled={disabled}
+                    >
+                        <SelectValue placeholder={placeholder || "Select..."} className="text-gray-800 font-medium"/>
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border rounded-md shadow-lg">
+                        {options.map((opt) => (
+                            <SelectItem
+                                key={opt.value}
+                                value={opt.value}
+                                className="p-2 text-sm hover:bg-gray-100 text-gray-600 font-medium cursor-pointer"
+                            >
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select2>
+            ) : (
                 <Component
                     id={inputId}
                     name={name}
                     {...(variant !== "textarea" ? { type: variant } : {})}
                     value={value}
                     onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-                        onChange?.(e.target.value)
+                        onChange?.((e.target as HTMLInputElement | HTMLTextAreaElement).value)
                     }
                     placeholder={placeholder}
                     disabled={disabled}
