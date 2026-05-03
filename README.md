@@ -16,6 +16,8 @@ A comprehensive farm management platform that empowers farmers with smart soluti
 - Express
 - MongoDB
 
+- 
+
 ## Project Structure
 
 ```
